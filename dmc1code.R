@@ -50,3 +50,13 @@ te1data$CarLoan = factor(te1data$CarLoan, labels = c("no", "yes"))
 table(t1data$CarInsurance)
 t1data$CarInsurance = factor(t1data$CarInsurance, labels = c("no", "yes"))
 te1data$CarInsurance = factor(te1data$CarInsurance, labels = c("no", "yes"))
+
+
+##fix all time attributes
+#install.packages("lubridate")
+library(lubridate)
+t1data$CallStart = hms(t1data$CallStart)
+t1data$CallEnd = hms(t1data$CallEnd)
+
+#add new column Duration, to measure the duration of calls
+t1data$Duration = 
