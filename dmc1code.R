@@ -16,5 +16,28 @@ set.seed(42) # do NOT CHANGE this seed
 setwd("C:/Users/lukaspman/Documents/BaR")
 training_data = read.csv("trainingDMC1.csv", sep=",")
 ######################################################
-plot(training_data)
-plot(training_data$Age ~ training_data$Default)
+
+##fix the datatypes of the data set
+#create new dataframe to do altering on the attributes, without damaging our original df
+t1data = training_data
+
+#inspect the data set
+str(t1data)
+table(t1data$Job)
+
+##fix all yes/no attributes
+#fix Default
+table(t1data$Default)
+t1data$Default = factor(t1data$Default, labels = c("no", "yes"))
+
+#fix HHInsurance
+t1data$HHInsurance = factor(t1data$HHInsurance, labels = c("no", "yes"))
+table(t1data$HHInsurance)
+
+#fix CarLoan
+table(t1data$CarLoan)
+t1data$CarLoan = factor(t1data$CarLoan, labels = c("no", "yes"))
+
+#fix CarInsurance
+table(t1data$CarInsurance)
+t1data$CarInsurance = factor(t1data$CarInsurance, labels = c("no", "yes"))
