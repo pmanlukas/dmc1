@@ -1,5 +1,6 @@
 #DMC1 Team "The Black Swan"
 
+######################################################
 # The caret package is used (http://topepo.github.io/caret/index.html)
 #install.packages("caret")
 library(caret)
@@ -59,3 +60,22 @@ t1data$CallEnd = as.POSIXct(t1data$CallEnd, format="%H:%M:%S")
 
 #new attribute that gives the duration of a call
 t1data$call_duration = as.numeric(t1data$CallEnd - t1data$CallStart)
+
+##fix other attributes
+table(t1data$Job, useNA = "always")
+table(t1data$Outcome, useNA = "always")
+
+#days since the last contact, -1 means, no previous contact --> create a new attribute
+#that tells if client was contacted or not
+table(t1data$DaysPassed, useNA = "always")
+
+training_data$delivery_time_discret = factor(rep("NA", nrow(training_data)), levels=c("NA", "Yes", "No"))
+test_data$delivery_time_discret = factor(rep("NA", nrow(test_data)), levels=c("NA", "<= 5d", "> 5d"))
+
+t1data$prev_contact = factor(rep("NA", nrow(t1data)), levels=c("NA", "Yes", "No"))
+
+t1data$prev_contact[t1data$DaysPassed < 0] = "No"
+
+t1data$prev_contact[t1data$DaysPassed >= 0] = "Yes"
+
+table(t1data$prev_contact)
