@@ -57,9 +57,11 @@ t1data$CarInsurance = factor(t1data$CarInsurance, labels = c("no", "yes"))
 #make the call time attributes in the same date format
 t1data$CallStart = as.POSIXct(t1data$CallStart, format="%H:%M:%S")
 t1data$CallEnd = as.POSIXct(t1data$CallEnd, format="%H:%M:%S")
-
+te1data$CallStart = as.POSIXct(te1data$CallStart, format="%H:%M:%S")
+te1data$CallEnd = as.POSIXct(te1data$CallEnd, format="%H:%M:%S")
 #new attribute that gives the duration of a call
 t1data$call_duration = as.numeric(t1data$CallEnd - t1data$CallStart)
+te1data$call_duration = as.numeric(te1data$CallEnd - te1data$CallStart)
 
 ##fix other attributes
 table(t1data$Job, useNA = "always")
@@ -69,13 +71,14 @@ table(t1data$Outcome, useNA = "always")
 #that tells if client was contacted or not
 table(t1data$DaysPassed, useNA = "always")
 
-training_data$delivery_time_discret = factor(rep("NA", nrow(training_data)), levels=c("NA", "Yes", "No"))
-test_data$delivery_time_discret = factor(rep("NA", nrow(test_data)), levels=c("NA", "<= 5d", "> 5d"))
-
 t1data$prev_contact = factor(rep("NA", nrow(t1data)), levels=c("NA", "Yes", "No"))
+te1data$prev_contact = factor(rep("NA", nrow(te1data)), levels=c("NA", "Yes", "No"))
 
 t1data$prev_contact[t1data$DaysPassed < 0] = "No"
+te1data$prev_contact[te1data$DaysPassed < 0] = "No"
 
 t1data$prev_contact[t1data$DaysPassed >= 0] = "Yes"
+te1data$prev_contact[te1data$DaysPassed >= 0] = "Yes"
 
 table(t1data$prev_contact)
+table(te1data$prev_contact)
