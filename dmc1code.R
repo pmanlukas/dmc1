@@ -49,14 +49,10 @@ te1data$CarLoan = factor(te1data$CarLoan, labels = c("no", "yes"))
 #fix CarInsurance
 table(t1data$CarInsurance)
 t1data$CarInsurance = factor(t1data$CarInsurance, labels = c("no", "yes"))
-te1data$CarInsurance = factor(te1data$CarInsurance, labels = c("no", "yes"))
 
 
 ##fix all time attributes
-#install.packages("lubridate")
-library(lubridate)
-t1data$CallStart = hms(t1data$CallStart)
-t1data$CallEnd = hms(t1data$CallEnd)
+t1data$CallStart = as.POSIXct(t1data$CallStart, format="%H:%M:%S")
+t1data$CallEnd = as.POSIXct(t1data$CallEnd, format="%H:%M:%S")
 
-#add new column Duration, to measure the duration of calls
-t1data$Duration = 
+t1data$call_duration = as.numeric(t1data$CallEnd - t1data$CallStart)
