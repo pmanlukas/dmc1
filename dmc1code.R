@@ -47,12 +47,15 @@ te1data$CarLoan = factor(te1data$CarLoan, labels = c("no", "yes"))
 
 
 #fix CarInsurance
+#here just the training data, because the test set will be predicted
 table(t1data$CarInsurance)
 t1data$CarInsurance = factor(t1data$CarInsurance, labels = c("no", "yes"))
 
 
 ##fix all time attributes
+#make the call time attributes in the same date format
 t1data$CallStart = as.POSIXct(t1data$CallStart, format="%H:%M:%S")
 t1data$CallEnd = as.POSIXct(t1data$CallEnd, format="%H:%M:%S")
 
+#new attribute that gives the duration of a call
 t1data$call_duration = as.numeric(t1data$CallEnd - t1data$CallStart)
